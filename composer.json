@@ -1,0 +1,50 @@
+{
+    "name": "dreamonkey/laravel-cloudfront-url-signer",
+    "description": "Laravel 5.5+ wrapper around CloudFront canned signed URLs",
+    "keywords": [
+        "dreamonkey",
+        "laravel-cloudfront-url-signer",
+        "private content",
+        "cloudfront"
+    ],
+    "homepage": "https://github.com/dreamonkey/laravel-cloudfront-url-signer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paolo Caleffi",
+            "email": "p.caleffi@dreamonkey.com",
+            "homepage": "https://dreamonkey.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "^7.0",
+        "illuminate/support": "~5.4.0|~5.5.0",
+        "illuminate/http": "~5.4.0|~5.5.0",
+        "aws/aws-sdk-php": "^3.52",
+        "league/uri": "^5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dreamonkey\\CloudFrontUrlSigner\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dreamonkey\\CloudFrontUrlSigner\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dreamonkey\\CloudFrontUrlSigner\\CloudFrontUrlSignerServiceProvider"
+            ],
+            "aliases": {
+                "CloudFrontUrlSigner": "Dreamonkey\\CloudFrontUrlSigner\\Facades\\CloudFrontUrlSigner"
+            }
+        }
+    }
+}
