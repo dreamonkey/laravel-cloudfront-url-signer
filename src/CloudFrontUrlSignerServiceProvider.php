@@ -2,6 +2,7 @@
 
 namespace Dreamonkey\CloudFrontUrlSigner;
 
+use Aws\CloudFront\CloudFrontClient;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,12 +38,12 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
         $config = config('cloudfront-url-signer');
 
         $this->app->singleton(UrlSigner::class, function () use ($config) {
-            $cloudFrontParams = [
+            $cloudFrontClient = new CloudFrontClient([
                 'region' => $config['region'],
                 'version' => $config['version']
-            ];
+            ]);;
 
-            return new CloudFrontUrlSigner($cloudFrontParams, $config['key_pair_id'], $config['private_key']);
+            return new CloudFrontUrlSigner($cloudFrontClient, $config['key_pair_id'], $config['private_key_path']);
         });
 
         $this->app->alias(UrlSigner::class, 'cloudfront-url-signer');

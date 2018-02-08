@@ -6,7 +6,7 @@ use Aws\CloudFront\CloudFrontClient;
 use DateTime;
 use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration;
 use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId;
-use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKey;
+use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKeyPath;
 use League\Uri\Http;
 
 class CloudFrontUrlSigner implements UrlSigner
@@ -19,11 +19,11 @@ class CloudFrontUrlSigner implements UrlSigner
     private $cloudFrontClient;
 
     /**
-     * Private key of the trusted signer.
+     * Path where to find the private key of the trusted signer.
      *
      * @var string
      */
-    private $privateKey;
+    private $privateKeyPath;
 
     /**
      * Identifier of the CloudFront Key Pair associated to the trusted signer.
@@ -33,25 +33,25 @@ class CloudFrontUrlSigner implements UrlSigner
     private $keyPairId;
 
     /**
-     * @param array $cloudFrontParams
-     * @param string $privateKey
+     * @param \Aws\CloudFront\CloudFrontClient $cloudFrontClient
+     * @param string $privateKeyPath
      * @param string $keyPairId
      *
-     * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKey
+     * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKeyPath
      * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId
      */
-    public function __construct(array $cloudFrontParams, string $privateKey, string $keyPairId)
+    public function __construct(CloudFrontClient $cloudFrontClient, string $privateKeyPath, string $keyPairId)
     {
-        if ($privateKey == '') {
-            throw new InvalidPrivateKey('Private key cannot be empty');
+        if ($privateKeyPath == '') {
+            throw new InvalidPrivateKeyPath('Private key path cannot be empty');
         }
 
         if ($keyPairId == '') {
             throw new InvalidKeyPairId('Key pair id cannot be empty');
         }
 
-        $this->cloudFrontClient = new CloudFrontClient($cloudFrontParams);
-        $this->privateKey = $privateKey;
+        $this->cloudFrontClient = $cloudFrontClient;
+        $this->privateKeyPath = $privateKeyPath;
         $this->keyPairId = $keyPairId;
     }
 
@@ -73,7 +73,7 @@ class CloudFrontUrlSigner implements UrlSigner
         return $this->cloudFrontClient->getSignedUrl([
             'url' => $resourceKey,
             'expires' => $expiration,
-            'private_key' => $this->privateKey,
+            'private_key' => $this->privateKeyPath,
             'key_pair_id' => $this->keyPairId,
         ]);
     }

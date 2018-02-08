@@ -9,7 +9,7 @@ return [
     /*
      * The private key used to sign all URLs.
      */
-    'private_key' => storage_path(env('CLOUDFRONT_PRIVATE_KEY_PATH', 'trusted-signer.pem')),
+    'private_key_path' => storage_path(env('CLOUDFRONT_PRIVATE_KEY_PATH', 'trusted-signer.pem')),
 
     /*
      * Identifies the CloudFront key pair associated
