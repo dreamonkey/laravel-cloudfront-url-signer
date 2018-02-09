@@ -7,12 +7,13 @@ if (!function_exists('sign')) {
      * A helper method to sign an URL using a CloudFront canned policy.
      *
      * @param string $url
-     * @param \DateTime|int $expiration
+     * @param \DateTime|int|null $expiration
      *
      * @return string
      */
-    function sign(string $url, $expiration): string
+    function sign(string $url, $expiration = null): string
     {
-        return app(UrlSigner::class)->sign($url, $expiration);
+        return app(UrlSigner::class)
+            ->sign($url, $expiration ?? config('cloudfront-url-signer.default_expiration_time_in_days'));
     }
 }
