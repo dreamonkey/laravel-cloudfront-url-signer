@@ -13,7 +13,6 @@ if (!function_exists('sign')) {
      */
     function sign(string $url, $expiration = null): string
     {
-        return app(UrlSigner::class)
-            ->sign($url, $expiration ?? config('cloudfront-url-signer.default_expiration_time_in_days'));
+        return app(UrlSigner::class)->sign($url, $expiration);
     }
 }

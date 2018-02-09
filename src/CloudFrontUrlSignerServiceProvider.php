@@ -24,7 +24,7 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
     protected function setupConfig(Application $app)
     {
         $source = realpath(__DIR__ . '/../config/cloudfront-url-signer.php');
-        $this->publishes([$source => config_path('cloudfront-url-signer.php')]);
+        $this->publishes([$source => config_path('cloudfront-url-signer.php')], 'config');
         $this->mergeConfigFrom($source, 'cloudfront-url-signer');
     }
 

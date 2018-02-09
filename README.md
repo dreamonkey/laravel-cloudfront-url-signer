@@ -6,15 +6,19 @@ Inspired by [laravel-url-signer](https://github.com/spatie/laravel-url-signer)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dreamonkey/laravel-cloudfront-url-signer.svg?style=flat-square)](https://packagist.org/packages/dreamonkey/laravel-cloudfront-url-signer)
 [![Total Downloads](https://img.shields.io/packagist/dt/dreamonkey/laravel-cloudfront-url-signer.svg?style=flat-square)](https://packagist.org/packages/dreamonkey/laravel-cloudfront-url-signer)
 
-This package can create canned policies signed URLs for CloudFront which expires after a given time. This is done by wrapping the AWS SDK method adding a Laravel-style configuration.
+This package can create canned policies signed URLs for CloudFront which expires after a given time. This is done by wrapping the AWS SDK method adding a Laravel-style configuration and accessibility.
 
 This is how you can create signed URL that's valid for 30 days:
 
 ```php
+// With Facade
 CloudFrontUrlSigner::sign('https://myapp.com/resource', 30);
+
+// With helper
+sign('https://myapp.com/resource', 30);
 ```
 
-The output will be compliant with [CloudFront specifications](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-canned-policy.html)
+The output is compliant with [CloudFront specifications](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-canned-policy.html)
 
 ## Installation
 

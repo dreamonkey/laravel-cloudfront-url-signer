@@ -59,16 +59,17 @@ class CloudFrontUrlSigner implements UrlSigner
      * Get a secure URL to a controller action.
      *
      * @param string $url
-     * @param \DateTime|int $expiration
+     * @param \DateTime|int|null $expiration
      *
      * @return string
      * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
-    public function sign(string $url, $expiration): string
+    public function sign(string $url, $expiration = null): string
     {
         $resourceKey = Http::createFromString($url);
 
-        $expiration = $this->getExpirationTimestamp($expiration);
+        $expiration = $this->getExpirationTimestamp($expiration ??
+            config('cloudfront-url-signer.default_expiration_time_in_days'));
 
         return $this->cloudFrontClient->getSignedUrl([
             'url' => $resourceKey,
