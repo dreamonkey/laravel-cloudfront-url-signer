@@ -25,7 +25,7 @@ class SignatureGenerationTest extends TestCase
     /** @test */
     public function it_registered_cloudfront_url_signer_in_the_container()
     {
-        config(['cloudfront-url-signer.private_key_path' => $this->dummyPrivateKeyPath]);
+        config(['cloudfront-url-signer.key_pair_id' => $this->dummyKeyPairId]);
         $instance = $this->app['cloudfront-url-signer'];
 
         $this->assertInstanceOf(\Dreamonkey\CloudFrontUrlSigner\CloudFrontUrlSigner::class, $instance);

@@ -35,15 +35,15 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/cloudfront-url-signer.php', 'cloudfront-url-signer');
 
-        $config = config('cloudfront-url-signer');
+        $this->app->singleton(UrlSigner::class, function () {
+            $config = config('cloudfront-url-signer');
 
-        $this->app->singleton(UrlSigner::class, function () use ($config) {
             $cloudFrontClient = new CloudFrontClient([
                 'region' => $config['region'],
                 'version' => $config['version']
             ]);;
 
-            return new CloudFrontUrlSigner($cloudFrontClient, $config['key_pair_id'], $config['private_key_path']);
+            return new CloudFrontUrlSigner($cloudFrontClient, $config['private_key_path'], $config['key_pair_id']);
         });
 
         $this->app->alias(UrlSigner::class, 'cloudfront-url-signer');
