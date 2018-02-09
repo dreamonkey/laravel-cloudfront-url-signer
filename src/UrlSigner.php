@@ -12,5 +12,5 @@ interface UrlSigner
      *
      * @return string
      */
-    public function sign($url, $expiration);
+    public function sign(string $url, $expiration): string;
 }

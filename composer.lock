@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.52.4",
+            "version": "3.52.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6dd007c30d377cf859f27238d07c87ff29a74b24"
+                "reference": "be3926c2de321acab841fa0fb0761929cba96f9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6dd007c30d377cf859f27238d07c87ff29a74b24",
-                "reference": "6dd007c30d377cf859f27238d07c87ff29a74b24",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/be3926c2de321acab841fa0fb0761929cba96f9b",
+                "reference": "be3926c2de321acab841fa0fb0761929cba96f9b",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-02-06T22:01:12+00:00"
+            "time": "2018-02-08T19:45:22+00:00"
         },
         {
             "name": "doctrine/inflector",

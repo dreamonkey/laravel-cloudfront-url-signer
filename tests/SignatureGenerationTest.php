@@ -9,9 +9,9 @@ use Dreamonkey\CloudFrontUrlSigner\CloudFrontUrlSigner;
 
 class SignatureGenerationTest extends TestCase
 {
-    private $dummyUrl = 'http://myapp.com';
     private $dummyPrivateKeyPath = 'dummy/path/key.pem';
     private $dummyKeyPairId = 'dummyKeyPairId';
+    private $dummyUrl = 'http://myapp.com';
 
     private $mockCloudFrontClient;
 
@@ -54,7 +54,7 @@ class SignatureGenerationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_sign_a_signed_url_that_expires_at_a_certain_time()
+    public function it_can_sign_an_url_that_expires_at_a_certain_time()
     {
         $expiration = DateTime::createFromFormat('d/m/Y H:i:s', '10/08/2115 18:15:44',
             new DateTimeZone('Europe/Brussels'));
@@ -70,7 +70,7 @@ class SignatureGenerationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_sign_a_signed_url_that_expires_after_a_relative_amount_of_days()
+    public function it_can_sign_an_url_that_expires_after_a_relative_amount_of_days()
     {
         $expiration = 30;
 

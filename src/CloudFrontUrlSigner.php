@@ -64,7 +64,7 @@ class CloudFrontUrlSigner implements UrlSigner
      * @return string
      * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
-    public function sign($url, $expiration)
+    public function sign(string $url, $expiration): string
     {
         $resourceKey = Http::createFromString($url);
 
@@ -85,7 +85,7 @@ class CloudFrontUrlSigner implements UrlSigner
      *
      * @return bool
      */
-    protected function isFuture($timestamp)
+    protected function isFuture(int $timestamp): bool
     {
         return ((int)$timestamp) >= (new DateTime())->getTimestamp();
     }
@@ -100,7 +100,7 @@ class CloudFrontUrlSigner implements UrlSigner
      * @return string
      * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
-    protected function getExpirationTimestamp($expiration)
+    protected function getExpirationTimestamp($expiration): string
     {
         if (is_int($expiration)) {
             $expiration = (new DateTime())->modify((int)$expiration . ' days');
