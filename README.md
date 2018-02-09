@@ -33,7 +33,7 @@ composer require dreamonkey/laravel-cloudfront-url-signer
 The configuration file can optionally be published via:
 
 ```
-php artisan vendor:publish --provider="Dreamonkey\CloudFrontUrlSigner\UrlSignerServiceProvider"
+php artisan vendor:publish --provider="Dreamonkey\CloudFrontUrlSigner\CloudFrontUrlSignerServiceProvider"
 ```
 
 This is the content of the file:
