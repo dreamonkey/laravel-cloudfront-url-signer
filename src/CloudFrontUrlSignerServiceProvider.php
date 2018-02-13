@@ -41,7 +41,7 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
             $cloudFrontClient = new CloudFrontClient([
                 'region' => $config['region'],
                 'version' => $config['version']
-            ]);;
+            ]);
 
             return new CloudFrontUrlSigner($cloudFrontClient, $config['private_key_path'], $config['key_pair_id']);
         });

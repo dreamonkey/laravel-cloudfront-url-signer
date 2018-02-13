@@ -2,30 +2,28 @@
 
 namespace Dreamonkey\CloudFrontUrlSigner\Tests;
 
-use Aws\CloudFront\CloudFrontClient;
 use DateTime;
 use DateTimeZone;
-use Dreamonkey\CloudFrontUrlSigner\CloudFrontUrlSigner;
+use League\Uri\Components\Query;
+use League\Uri\Http;
 
 class SignatureGenerationTest extends TestCase
 {
-    private $dummyPrivateKeyPath = 'dummy/path/key.pem';
+    private $dummyPrivateKeyPath = 'tests/dummy-key.pem';
     private $dummyKeyPairId = 'dummyKeyPairId';
     private $dummyUrl = 'http://myapp.com';
-
-    private $mockCloudFrontClient;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->mockCloudFrontClient = $this->createMock(CloudFrontClient::class);
-        $this->mockCloudFrontClient->method('getSignedUrl')->willReturn('dummysignedurl');
+
+        config(['cloudfront-url-signer.key_pair_id' => $this->dummyKeyPairId]);
+        config(['cloudfront-url-signer.private_key_path' => $this->dummyPrivateKeyPath]);
     }
 
     /** @test */
     public function it_registered_cloudfront_url_signer_in_the_container()
     {
-        config(['cloudfront-url-signer.key_pair_id' => $this->dummyKeyPairId]);
         $instance = $this->app['cloudfront-url-signer'];
 
         $this->assertInstanceOf(\Dreamonkey\CloudFrontUrlSigner\CloudFrontUrlSigner::class, $instance);
@@ -38,8 +36,10 @@ class SignatureGenerationTest extends TestCase
      */
     public function it_will_throw_an_exception_for_an_empty_key_pair_id()
     {
+        config(['cloudfront-url-signer.key_pair_id' => '']);
+
         /** @noinspection PhpUnhandledExceptionInspection */
-        new CloudFrontUrlSigner($this->mockCloudFrontClient, $this->dummyPrivateKeyPath, '');
+        sign($this->dummyUrl);
     }
 
     /**
@@ -49,24 +49,22 @@ class SignatureGenerationTest extends TestCase
      */
     public function it_will_throw_an_exception_for_an_empty_private_key_path()
     {
+        config(['cloudfront-url-signer.private_key_path' => '']);
+
         /** @noinspection PhpUnhandledExceptionInspection */
-        new CloudFrontUrlSigner($this->mockCloudFrontClient, '', $this->dummyKeyPairId);
+        sign($this->dummyUrl);
     }
 
     /** @test */
     public function it_can_sign_an_url_that_expires_at_a_certain_time()
     {
-        $expiration = DateTime::createFromFormat('d/m/Y H:i:s', '10/08/2115 18:15:44',
+        $expiration = DateTime::createFromFormat('d/m/Y H:i:s', '10/08/2025 18:15:44',
             new DateTimeZone('Europe/Brussels'));
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $urlSigner = (new CloudFrontUrlSigner($this->mockCloudFrontClient,
-            $this->dummyPrivateKeyPath, $this->dummyKeyPairId));
+        $signedUrl = sign($this->dummyUrl, $expiration);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $signedUrl = $urlSigner->sign($this->dummyUrl, $expiration);
-
-        $this->assertTrue(is_string($signedUrl));
+        $this->assertEquals($expiration->getTimestamp(), $this->getSignedUrlExpirationTimestamp($signedUrl));
     }
 
     /** @test */
@@ -75,13 +73,9 @@ class SignatureGenerationTest extends TestCase
         $expiration = 30;
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $urlSigner = (new CloudFrontUrlSigner($this->mockCloudFrontClient,
-            $this->dummyPrivateKeyPath, $this->dummyKeyPairId));
+        $signedUrl = sign($this->dummyUrl, $expiration);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $signedUrl = $urlSigner->sign($this->dummyUrl, $expiration);
-
-        $this->assertTrue(is_string($signedUrl));
+        $this->assertLessThanOrEqual(60, (new DateTime())->modify($expiration . ' days')->getTimestamp() - $this->getSignedUrlExpirationTimestamp($signedUrl));
     }
 
     /**
@@ -93,11 +87,7 @@ class SignatureGenerationTest extends TestCase
     {
         $expiration = -5;
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $urlSigner = (new CloudFrontUrlSigner($this->mockCloudFrontClient,
-            $this->dummyPrivateKeyPath, $this->dummyKeyPairId));
-
-        $urlSigner->sign($this->dummyUrl, $expiration);
+        sign($this->dummyUrl, $expiration);
     }
 
     /**
@@ -109,10 +99,15 @@ class SignatureGenerationTest extends TestCase
     {
         $expiration = DateTime::createFromFormat('d/m/Y H:i:s', '10/08/2005 18:15:44');
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $urlSigner = (new CloudFrontUrlSigner($this->mockCloudFrontClient,
-            $this->dummyPrivateKeyPath, $this->dummyKeyPairId));
+        sign($this->dummyUrl, $expiration);
+    }
 
-        $urlSigner->sign($this->dummyUrl, $expiration);
+    /**
+     * @param string $signedUrl
+     * @return int
+     */
+    private function getSignedUrlExpirationTimestamp(string $signedUrl): int
+    {
+        return (int)(new Query(Http::createFromString($signedUrl)->getQuery()))->getParam('Expires');
     }
 }
