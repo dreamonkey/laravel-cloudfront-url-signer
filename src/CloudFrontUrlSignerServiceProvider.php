@@ -13,19 +13,7 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig($this->app);
-    }
-
-    /**
-     * Setup the config.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    protected function setupConfig(Application $app)
-    {
-        $source = realpath(__DIR__ . '/../config/cloudfront-url-signer.php');
-        $this->publishes([$source => config_path('cloudfront-url-signer.php')], 'config');
-        $this->mergeConfigFrom($source, 'cloudfront-url-signer');
+        $this->publishes([__DIR__ . '/../config/cloudfront-url-signer.php' => config_path('cloudfront-url-signer.php')], 'config');
     }
 
     /**
@@ -39,7 +27,9 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
             $config = config('cloudfront-url-signer');
 
             $cloudFrontClient = new CloudFrontClient([
-                'region' => $config['region'],
+                // CloudFront is global, us-east-1 region must be used
+                // See https://docs.aws.amazon.com/general/latest/gr/rande.html?shortFooter=true#cf_region
+                'region' => 'us-east-1',
                 'version' => $config['version']
             ]);
 
