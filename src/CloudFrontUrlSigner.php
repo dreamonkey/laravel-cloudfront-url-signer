@@ -2,11 +2,8 @@
 
 namespace Dreamonkey\CloudFrontUrlSigner;
 
-use Aws\CloudFront\CloudFrontClient;
 use DateTime;
 use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration;
-use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId;
-use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKeyPath;
 use League\Uri\Http;
 
 class CloudFrontUrlSigner implements UrlSigner
@@ -14,45 +11,16 @@ class CloudFrontUrlSigner implements UrlSigner
     /**
      * CloudFront client object.
      *
-     * @var \Aws\CloudFront\CloudFrontClient
+     * @var \Aws\CloudFront\UrlSigner
      */
-    private $cloudFrontClient;
+    private $urlSigner;
 
     /**
-     * Path where to find the private key of the trusted signer.
-     *
-     * @var string
+     * @param \Aws\CloudFront\UrlSigner $urlSigner
      */
-    private $privateKeyPath;
-
-    /**
-     * Identifier of the CloudFront Key Pair associated to the trusted signer.
-     *
-     * @var string
-     */
-    private $keyPairId;
-
-    /**
-     * @param \Aws\CloudFront\CloudFrontClient $cloudFrontClient
-     * @param string $privateKeyPath
-     * @param string $keyPairId
-     *
-     * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKeyPath
-     * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId
-     */
-    public function __construct(CloudFrontClient $cloudFrontClient, string $privateKeyPath, string $keyPairId)
+    public function __construct(\Aws\CloudFront\UrlSigner $urlSigner)
     {
-        if ($privateKeyPath == '') {
-            throw new InvalidPrivateKeyPath('Private key path cannot be empty');
-        }
-
-        if ($keyPairId == '') {
-            throw new InvalidKeyPairId('Key pair id cannot be empty');
-        }
-
-        $this->cloudFrontClient = $cloudFrontClient;
-        $this->privateKeyPath = $privateKeyPath;
-        $this->keyPairId = $keyPairId;
+        $this->urlSigner = $urlSigner;
     }
 
     /**
@@ -71,12 +39,7 @@ class CloudFrontUrlSigner implements UrlSigner
         $expiration = $this->getExpirationTimestamp($expiration ??
             config('cloudfront-url-signer.default_expiration_time_in_days'));
 
-        return $this->cloudFrontClient->getSignedUrl([
-            'url' => $resourceKey,
-            'expires' => $expiration,
-            'private_key' => $this->privateKeyPath,
-            'key_pair_id' => $this->keyPairId,
-        ]);
+        return $this->urlSigner->getSignedUrl($resourceKey, $expiration);
     }
 
     /**

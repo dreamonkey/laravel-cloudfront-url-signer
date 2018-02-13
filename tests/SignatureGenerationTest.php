@@ -42,19 +42,6 @@ class SignatureGenerationTest extends TestCase
         sign($this->dummyUrl);
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidPrivateKeyPath
-     */
-    public function it_will_throw_an_exception_for_an_empty_private_key_path()
-    {
-        config(['cloudfront-url-signer.private_key_path' => '']);
-
-        /** @noinspection PhpUnhandledExceptionInspection */
-        sign($this->dummyUrl);
-    }
-
     /** @test */
     public function it_can_sign_an_url_that_expires_at_a_certain_time()
     {

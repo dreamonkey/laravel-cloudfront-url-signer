@@ -2,8 +2,7 @@
 
 namespace Dreamonkey\CloudFrontUrlSigner;
 
-use Aws\CloudFront\CloudFrontClient;
-use Illuminate\Contracts\Foundation\Application;
+use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId;
 use Illuminate\Support\ServiceProvider;
 
 class CloudFrontUrlSignerServiceProvider extends ServiceProvider
@@ -26,14 +25,11 @@ class CloudFrontUrlSignerServiceProvider extends ServiceProvider
         $this->app->singleton(UrlSigner::class, function () {
             $config = config('cloudfront-url-signer');
 
-            $cloudFrontClient = new CloudFrontClient([
-                // CloudFront is global, us-east-1 region must be used
-                // See https://docs.aws.amazon.com/general/latest/gr/rande.html?shortFooter=true#cf_region
-                'region' => 'us-east-1',
-                'version' => $config['version']
-            ]);
+            if ($config['key_pair_id'] === '') {
+                throw new InvalidKeyPairId('Key pair id cannot be empty');
+            }
 
-            return new CloudFrontUrlSigner($cloudFrontClient, $config['private_key_path'], $config['key_pair_id']);
+            return new CloudFrontUrlSigner(new \Aws\CloudFront\UrlSigner($config['key_pair_id'], $config['private_key_path']));
         });
 
         $this->app->alias(UrlSigner::class, 'cloudfront-url-signer');
