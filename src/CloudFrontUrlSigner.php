@@ -61,10 +61,10 @@ class CloudFrontUrlSigner implements UrlSigner
      *                                  - DateTime: The value will be used as expiration date
      *                                  - int: The expiration time will be set to X days from now
      *
-     * @return string
+     * @return int
      * @throws \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
-    protected function getExpirationTimestamp($expiration): string
+    protected function getExpirationTimestamp($expiration): int
     {
         if (is_int($expiration)) {
             $expiration = (new DateTime())->modify((int)$expiration . ' days');
@@ -78,6 +78,6 @@ class CloudFrontUrlSigner implements UrlSigner
             throw new InvalidExpiration('Expiration date must be in the future');
         }
 
-        return (string)$expiration->getTimestamp();
+        return $expiration->getTimestamp();
     }
 }
