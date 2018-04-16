@@ -4,8 +4,6 @@ namespace Dreamonkey\CloudFrontUrlSigner\Tests;
 
 use DateTime;
 use DateTimeZone;
-use League\Uri\Components\Query;
-use League\Uri\Http;
 
 class SignatureGenerationTest extends TestCase
 {
@@ -95,6 +93,8 @@ class SignatureGenerationTest extends TestCase
      */
     private function getSignedUrlExpirationTimestamp(string $signedUrl): int
     {
-        return (int)(new Query(Http::createFromString($signedUrl)->getQuery()))->getParam('Expires');
+        $parts = parse_url($signedUrl);
+        parse_str($parts['query'], $queryParams);
+        return (int)$queryParams['Expires'];
     }
 }
