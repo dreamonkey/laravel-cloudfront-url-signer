@@ -4,7 +4,6 @@ namespace Dreamonkey\CloudFrontUrlSigner;
 
 use DateTime;
 use Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration;
-use League\Uri\Http;
 
 class CloudFrontUrlSigner implements UrlSigner
 {
@@ -34,12 +33,10 @@ class CloudFrontUrlSigner implements UrlSigner
      */
     public function sign(string $url, $expiration = null): string
     {
-        $resourceKey = Http::createFromString($url);
-
         $expiration = $this->getExpirationTimestamp($expiration ??
             config('cloudfront-url-signer.default_expiration_time_in_days'));
 
-        return $this->urlSigner->getSignedUrl($resourceKey, $expiration);
+        return $this->urlSigner->getSignedUrl($url, $expiration);
     }
 
     /**
