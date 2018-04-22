@@ -3,7 +3,10 @@
 All notable changes to `laravel-cloudfront-url-signer` will be documented in this file.
 
 ## Unreleased
+
+## 1.0.1 - 2018-04-22
 - Updated CHANGELOG to cover undocumented releases
+- Removed dependency and consequentially php-intl extension: it gives some problems on High Sierra development environment. URL check is now delegated to AWS SDK. 
 
 ## 1.0.0 - 2018-02-19
 - Added Laravel 5.6 compliance
