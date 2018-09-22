@@ -1,5 +1,5 @@
-# Create CloudFront signed URLs in Laravel 5.5+
-Easy to use Laravel 5.5+ wrapper around the official AWS PHP SDK which allows to sign URLs to access Private Content through CloudFront CDN
+# Create CloudFront signed URLs in Laravel 5.6+
+Easy to use Laravel 5.6+ wrapper around the official AWS PHP SDK which allows to sign URLs to access Private Content through CloudFront CDN
 
 Inspired by [laravel-url-signer](https://github.com/spatie/laravel-url-signer)
 
@@ -48,23 +48,23 @@ return [
     /*
      * The private key used to sign all URLs.
      */
-    'private_key_path' => storage_path(env('AWS_CLOUDFRONT_PRIVATE_KEY_PATH', 'trusted-signer.pem')),
+    'private_key_path' => storage_path(env('CLOUDFRONT_PRIVATE_KEY_PATH', 'trusted-signer.pem')),
 
     /*
      * Identifies the CloudFront key pair associated
      * to the trusted signer which validates signed URLs.
      */
-    'key_pair_id' => env('AWS_CLOUDFRONT_KEY_PAIR_ID', ''),
+    'key_pair_id' => env('CLOUDFRONT_KEY_PAIR_ID', ''),
 
     /*
      * AWS region to connect to.
      */
-    'region' => env('AWS_DEFAULT_REGION', 'us-west-2'),
+    'region' => env('DEFAULT_REGION', 'us-west-2'),
 
     /*
      * CloudFront API version, by default it uses the latest available.
      */
-    'version' => env('AWS_CLOUDFRONT_API_VERSION', 'latest'),
+    'version' => env('CLOUDFRONT_API_VERSION', 'latest'),
 
 ];
 ```
