@@ -57,11 +57,6 @@ return [
     'key_pair_id' => env('CLOUDFRONT_KEY_PAIR_ID', ''),
 
     /*
-     * AWS region to connect to.
-     */
-    'region' => env('DEFAULT_REGION', 'us-west-2'),
-
-    /*
      * CloudFront API version, by default it uses the latest available.
      */
     'version' => env('CLOUDFRONT_API_VERSION', 'latest'),
