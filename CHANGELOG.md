@@ -4,7 +4,7 @@ All notable changes to `laravel-cloudfront-url-signer` will be documented in thi
 
 ## Unreleased
 
-## 2.1.0 - 2018-09-24
+## 2.1.0 - 2019-06-03
 - Added support for L5.8
 
 ## 2.0.0 - 2018-09-24
