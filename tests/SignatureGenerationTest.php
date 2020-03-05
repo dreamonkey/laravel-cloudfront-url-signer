@@ -11,7 +11,7 @@ class SignatureGenerationTest extends TestCase
     private $dummyKeyPairId = 'dummyKeyPairId';
     private $dummyUrl = 'http://myapp.com';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,11 +29,11 @@ class SignatureGenerationTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId
      */
     public function it_will_throw_an_exception_for_an_empty_key_pair_id()
     {
+        $this->expectException(\Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidKeyPairId::class);
+
         config(['cloudfront-url-signer.key_pair_id' => '']);
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -65,11 +65,11 @@ class SignatureGenerationTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
     public function it_does_not_allow_expiration_in_the_past_when_integer_is_given()
     {
+        $this->expectException(\Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration::class);
+
         $expiration = -5;
 
         sign($this->dummyUrl, $expiration);
@@ -77,11 +77,11 @@ class SignatureGenerationTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration
      */
     public function it_does_not_allow_expiration_in_the_past_when_datetime_is_given()
     {
+        $this->expectException(\Dreamonkey\CloudFrontUrlSigner\Exceptions\InvalidExpiration::class);
+
         $expiration = DateTime::createFromFormat('d/m/Y H:i:s', '10/08/2005 18:15:44');
 
         sign($this->dummyUrl, $expiration);
