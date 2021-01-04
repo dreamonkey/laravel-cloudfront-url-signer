@@ -44,7 +44,7 @@ return [
     /*
      * The default expiration time of a URL in seconds.
      */
-    'default_expiration_time_in_seconds' => 1,
+    'default_expiration_time_in_seconds' => 86400,
 
     /*
      * The private key used to sign all URLs.
