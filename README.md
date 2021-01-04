@@ -42,9 +42,9 @@ This is the content of the file:
 ```php
 return [
     /*
-     * The default expiration time of a URL in days.
+     * The default expiration time of a URL in seconds.
      */
-    'default_expiration_time_in_days' => 1,
+    'default_expiration_time_in_seconds' => 1,
 
     /*
      * The private key used to sign all URLs.

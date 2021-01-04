@@ -34,7 +34,7 @@ class CloudFrontUrlSigner implements UrlSigner
     public function sign(string $url, $expiration = null): string
     {
         $expiration = $this->getExpirationTimestamp($expiration ??
-            config('cloudfront-url-signer.default_expiration_time_in_days'));
+            config('cloudfront-url-signer.default_expiration_time_in_seconds'));
 
         return $this->urlSigner->getSignedUrl($url, $expiration);
     }
@@ -64,7 +64,7 @@ class CloudFrontUrlSigner implements UrlSigner
     protected function getExpirationTimestamp($expiration): int
     {
         if (is_int($expiration)) {
-            $expiration = (new DateTime())->modify((int)$expiration . ' days');
+            $expiration = (new DateTime())->modify((int)$expiration . ' seconds');
         }
 
         if (!$expiration instanceof DateTime) {
