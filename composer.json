@@ -1,5 +1,5 @@
 {
-  "name": "dreamonkey/laravel-cloudfront-url-signer",
+  "name": "dcodegroup/laravel-attachments",
   "description": "Laravel 5.6+ wrapper around CloudFront canned signed URLs",
   "keywords": [
     "dreamonkey",
@@ -7,7 +7,6 @@
     "private content",
     "cloudfront"
   ],
-  "homepage": "https://github.com/dreamonkey/laravel-cloudfront-url-signer",
   "license": "MIT",
   "authors": [
     {
@@ -15,16 +14,27 @@
       "email": "p.caleffi@dreamonkey.com",
       "homepage": "https://dreamonkey.com",
       "role": "Developer"
+    },
+    {
+      "name": "Aaron Heath",
+      "email": "aaron@aaronheath.com",
+      "role": "Developer",
+      "homepage": "https://aaronheath.com"
+    },
+    {
+      "name": "Dcode Group",
+      "email": "forge@dcodegroup.com",
+      "homepage": "https://dcodegroup.com"
     }
   ],
   "require": {
     "php": "^7.3.0|^8.0",
-    "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
+    "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
     "aws/aws-sdk-php": "^3.52"
   },
   "require-dev": {
-    "orchestra/testbench": "^6.0|^8.0",
-    "phpunit/phpunit": "^8.0|^9.0"
+    "orchestra/testbench": "^6.0|^8.0|^9.0",
+    "phpunit/phpunit": "^8.0|^9.0|^10.5"
   },
   "autoload": {
     "psr-4": {
