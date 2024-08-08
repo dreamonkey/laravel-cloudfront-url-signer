@@ -1,52 +1,52 @@
 {
-  "name": "dreamonkey/laravel-cloudfront-url-signer",
-  "description": "Laravel 5.6+ wrapper around CloudFront canned signed URLs",
-  "keywords": [
-    "dreamonkey",
-    "laravel-cloudfront-url-signer",
-    "private content",
-    "cloudfront"
-  ],
-  "homepage": "https://github.com/dreamonkey/laravel-cloudfront-url-signer",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Paolo Caleffi",
-      "email": "p.caleffi@dreamonkey.com",
-      "homepage": "https://dreamonkey.com",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "php": "^7.3.0|^8.0",
-    "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
-    "aws/aws-sdk-php": "^3.52"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^6.0|^8.0",
-    "phpunit/phpunit": "^8.0|^9.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Dreamonkey\\CloudFrontUrlSigner\\": "src"
+    "name": "dreamonkey/laravel-cloudfront-url-signer",
+    "description": "Laravel 5.6+ wrapper around CloudFront canned signed URLs",
+    "keywords": [
+        "dreamonkey",
+        "laravel-cloudfront-url-signer",
+        "private content",
+        "cloudfront"
+    ],
+    "homepage": "https://github.com/dreamonkey/laravel-cloudfront-url-signer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paolo Caleffi",
+            "email": "p.caleffi@dreamonkey.com",
+            "homepage": "https://dreamonkey.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+        "aws/aws-sdk-php": "^3.52"
     },
-    "files": [
-      "src/helpers.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Dreamonkey\\CloudFrontUrlSigner\\Tests\\": "tests"
+    "require-dev": {
+        "orchestra/testbench": "^6.0|^8.0|^9.0",
+        "phpunit/phpunit": "^8.0|^9.0|^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dreamonkey\\CloudFrontUrlSigner\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dreamonkey\\CloudFrontUrlSigner\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dreamonkey\\CloudFrontUrlSigner\\CloudFrontUrlSignerServiceProvider"
+            ],
+            "aliases": {
+                "CloudFrontUrlSigner": "Dreamonkey\\CloudFrontUrlSigner\\Facades\\CloudFrontUrlSigner"
+            }
+        }
     }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Dreamonkey\\CloudFrontUrlSigner\\CloudFrontUrlSignerServiceProvider"
-      ],
-      "aliases": {
-        "CloudFrontUrlSigner": "Dreamonkey\\CloudFrontUrlSigner\\Facades\\CloudFrontUrlSigner"
-      }
-    }
-  }
 }
