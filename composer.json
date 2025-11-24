@@ -18,13 +18,13 @@
         }
     ],
     "require": {
-        "php": "^7.3.0|^8.0",
-        "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-        "aws/aws-sdk-php": "^3.52"
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "aws/aws-sdk-php": "^3.300"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0|^8.0|^9.0",
-        "phpunit/phpunit": "^8.0|^9.0|^10.5"
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-4": {
@@ -36,7 +36,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Dreamonkey\\CloudFrontUrlSigner\\Tests\\": "tests"
+            "Dreamonkey\\CloudFrontUrlSigner\\Tests\\": "tests",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
         }
     },
     "extra": {
@@ -48,5 +51,23 @@
                 "CloudFrontUrlSigner": "Dreamonkey\\CloudFrontUrlSigner\\Facades\\CloudFrontUrlSigner"
             }
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "test": [
+            "@clear",
+            "@php vendor/bin/phpunit"
+        ]
     }
 }

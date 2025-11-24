@@ -2,6 +2,10 @@ vendor/
 node_modules/
 npm-debug.log
 
+# Workbench
+workbench/
+testbench.yaml
+
 # Laravel 5 & Lumen specific
 public/storage
 public/hot
